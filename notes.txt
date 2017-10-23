@@ -1,0 +1,10 @@
+1. wipe up threads.
+    tinker;
+    $threads = factory(App\Thread::class, 50)->create();
+2. wipe up replies for threads.
+    tinker;
+    $threads->each(function($thread){
+        factory(App\Reply::class,10)->create([
+            'thread_id' => $thread->id,
+        ]);
+    });
