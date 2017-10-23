@@ -53,3 +53,6 @@
 10. TestCase basis
     'Feature Test':     auth/user/process/behavior (controller related test);
     'Unit Test':        eloquent/model related test(relationships, methods, properties)
+
+11. Exception withHandling/withoutHandling solution and remove No.7 treatment
+    https://gist.github.com/adamwathan/125847c7e3f16b88fa33a9f8b42333da
