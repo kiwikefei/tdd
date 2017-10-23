@@ -45,3 +45,11 @@
         $this->expectException('Illuminate\Auth\AuthenticationException');
         $this->post('/threads/1/replies', []);
     }
+9. factory stuffs
+        factory('App\User')->raw();     // whip up an array of User in memory
+        factory('App\User')->make();    // whip up an instance of User in memory
+        factory('App\User')->create();  // whip up an instance of User and persist in database
+
+10. TestCase basis
+    'Feature Test':     auth/user/process/behavior (controller related test);
+    'Unit Test':        eloquent/model related test(relationships, methods, properties)

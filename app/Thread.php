@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Thread extends Model
 {
-    protected $fillable = ['body', 'user_id'];
+    protected $fillable = ['title', 'body', 'user_id'];
     public function path()
     {
         return "/threads/{$this->id}";

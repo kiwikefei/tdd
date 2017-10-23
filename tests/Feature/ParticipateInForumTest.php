@@ -24,14 +24,13 @@ class ParticipateInForumTest extends TestCase
     {
         // Plans
         // Given: we have an authenticated user
-        $this->be(factory('App\User')->create());
-
+        $this->signIn();
         // Given: And an existing thread
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
 
         // When: the user adds a reply to the thread
 //        $reply = factory('App\Reply')->create();  // rather than create() a reply we , just make() it in memory
-        $reply = factory('App\Reply')->make();
+        $reply = make('App\Reply');
 
         $this->post($thread->path() . '/replies', $reply->toArray());
 
