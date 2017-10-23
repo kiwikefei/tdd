@@ -37,3 +37,11 @@
     enable: tweak render@app\Exceptions\Handler.php
     if(app()->environment() === 'testing') throw $exception;
     // throw exception directly when working under testing env rather render them.
+
+8. testing expected exception
+    /** @test **/
+    public function unauthenticated_users_may_not_add_replies()
+    {
+        $this->expectException('Illuminate\Auth\AuthenticationException');
+        $this->post('/threads/1/replies', []);
+    }
