@@ -20,3 +20,20 @@
 </php>
 
 4. add _ide_helper.php raw file
+
+5. Test Levels Conceptions(in Laravel specific)
+    * <Feature Test> from outside in ( High level test )
+        Browser point of view / User point of view
+    * <Unit Test / Integration Test Level> ( Low level test )
+
+6. Obj has certain obj(s) -- $this->assertInstanceOf(Collection/Obj,relations);
+    public function a_thread_has_replies()
+    {
+        $thread = factory('App\Thread')->create();
+        $this->assertInstanceOf(Collection::class, $thread->replies);
+    }
+
+7. laravel ignore exception when doing test.
+    enable: tweak render@app\Exceptions\Handler.php
+    if(app()->environment() === 'testing') throw $exception;
+    // throw exception directly when working under testing env rather render them.
