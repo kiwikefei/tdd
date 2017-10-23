@@ -1,6 +1,7 @@
 1. wipe up threads.
     tinker;
     $threads = factory(App\Thread::class, 50)->create();
+
 2. wipe up replies for threads.
     tinker;
     $threads->each(function($thread){
@@ -8,3 +9,14 @@
             'thread_id' => $thread->id,
         ]);
     });
+
+3. setup phpunit config file
+./phpunit.xml
+<php>
+    :
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value=":memory:"/>
+    :
+</php>
+
+4. add _ide_helper.php raw file
