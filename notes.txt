@@ -51,8 +51,23 @@
         factory('App\User')->create();  // whip up an instance of User and persist in database
 
 10. TestCase basis
-    'Feature Test':     auth/user/process/behavior (controller related test);
+    'Feature Test':     auth/user/process/behavior/validation (controller related test);
     'Unit Test':        eloquent/model related test(relationships, methods, properties)
 
 11. Exception withHandling/withoutHandling solution and remove No.7 treatment
     https://gist.github.com/adamwathan/125847c7e3f16b88fa33a9f8b42333da
+
+12. To simulate a post appropriately
+        // the issue is we used to do create rather than make which is not correct.
+        // to simulate a post, we should prepare the data, use `make` is more appropriate.
+        // $thread = create('App\Thread');
+        // but the thing is if we 'make' the thread, we will no longer grab $thread->id,
+        // cuz it is not been persisted. to solve that we need simulate the post first
+        // and grab the id from the header in the response of the post.
+
+        $thread = make('App\Thread');
+        $response = $this->post('/threads', $thread->toArray());
+        $path = $response->headers->get('Location');
+        $this->get($path)
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);

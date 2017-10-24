@@ -34,15 +34,41 @@ class CreateThreadTest extends TestCase
         // When: we hit the endpoint to create a new thread
 //        $thread = factory('App\Thread')->raw();   //see notes
 
-        $thread = create('App\Thread');
-
-        $this->post('/threads', $thread->toArray());
-
+        $thread = make('App\Thread');
+        // see No.12 @ notes.txt
+        $response = $this->post('/threads', $thread->toArray());
+        $path = $response->headers->get('Location');
         // Then: when we visit the thread page
-        $this->get($thread->path())
+        $this->get($path)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
         // We should see the new thread
+    }
+    
+    /** @test **/
+    public function a_thread_requires_a_title()
+    {
+        $this->publishThread(['title' => null])
+            ->assertSessionHasErrors('title');
+
+    }
+
+    /** @test **/
+    public function a_thread_requires_a_body()
+    {
+        $this->publishThread(['body' => null])
+            ->assertSessionHasErrors('body');
+
+    }
+
+    public function publishThread($overrides = [])
+    {
+        $this->withExceptionHandling()
+            ->signIn();
+
+        $thread = make('App\Thread',$overrides);
+
+        return $this->post('/threads', $thread->toArray());
     }
     
 }
