@@ -1,8 +1,8 @@
-1. wipe up threads.
+1. whip up threads.
     tinker;
     $threads = factory(App\Thread::class, 50)->create();
 
-2. wipe up replies for threads.
+2. whip up replies for threads.
     tinker;
     $threads->each(function($thread){
         factory(App\Reply::class,10)->create([
@@ -11,13 +11,13 @@
     });
 
 3. setup phpunit config file
-./phpunit.xml
-<php>
-    :
-    <env name="DB_CONNECTION" value="sqlite"/>
-    <env name="DB_DATABASE" value=":memory:"/>
-    :
-</php>
+    ./phpunit.xml
+    <php>
+        :
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        :
+    </php>
 
 4. add _ide_helper.php raw file
 
@@ -72,21 +72,41 @@
             ->assertSee($thread->title)
             ->assertSee($thread->body);
 
-13.     Testing request validation
-        /** @test **/
-        public function a_thread_requires_a_body()
-        {
-            $this->publishThread(['body' => null])
-                ->assertSessionHasErrors('body');
+13. Testing request validation
 
-        }
+    /** @test **/
+    public function a_thread_requires_a_body()
+    {
+        $this->publishThread(['body' => null])
+            ->assertSessionHasErrors('body');
 
-        public function publishThread($overrides = [])
-        {
-            $this->withExceptionHandling()
-                ->signIn();
+    }
 
-            $thread = make('App\Thread',$overrides);
+    public function publishThread($overrides = [])
+    {
+        $this->withExceptionHandling()
+            ->signIn();
 
-            return $this->post('/threads', $thread->toArray());
-        }
+        $thread = make('App\Thread',$overrides);
+
+        return $this->post('/threads', $thread->toArray());
+    }
+
+14. Configuration for PHPStorm/PHPUnit testing workflow.
+
+    1. Menu->Run->Edit Configuration
+        Default->PHPUnit
+            1. Test Scope: Directory
+            2. Directory: /Users/andy/Codebase/tdd/tests
+            3. (tick) Use alternative configuration file: /Users/andy/Codebase/tdd/phpunit.xml
+    2. Preferences => Languages & Frameworks => PHP
+        1. Specify PHP Language Level: 7.1
+        2. Specify CLI Interpreter: PHP 7.1.3
+    3. Preferences => Languages & Frameworks => PHP => Test Frameworks
+        1. Use PHPUnit config for Local (add one if not exist)
+        2. (tick) Use Composer autoloader
+        3. Path to script: /Users/andy/Codebase/tdd/vendor/autoload.php
+    4. Shortcuts
+        Command + t             => Run context configuration
+        Command + Shift + t     => Run (re-run the previous test)
+        Command + Shift + w     => Close the popup testing window
