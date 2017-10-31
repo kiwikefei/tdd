@@ -13,6 +13,8 @@ use Faker\Generator as Faker;
 |
 */
 
+/** @var $factory */
+
 $factory->define(App\Thread::class, function (Faker $faker) {
     return [
         'user_id'      => function() {

@@ -50,7 +50,6 @@ class CreateThreadTest extends TestCase
     {
         $this->publishThread(['title' => null])
             ->assertSessionHasErrors('title');
-
     }
 
     /** @test **/

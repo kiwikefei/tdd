@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
 
@@ -18,11 +19,19 @@ class ThreadsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Channel|null $channel
      * @return \Illuminate\Http\Response
+     * @internal param null $channelSlug
      */
-    public function index()
+    public function index(Channel $channel = null)
     {
-        $threads = Thread::latest()->get();
+        if($channel){
+//            $channel = Channel::whereSlug($channel->slug)->first();
+//            $threads = Thread::where('channel_id', $channel->id)->latest()->get();
+            $threads = $channel->threads()->latest()->get();
+        }else{
+            $threads = Thread::latest()->get();
+        }
         return view('threads.index', compact('threads'));
     }
 
