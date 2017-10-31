@@ -18,10 +18,10 @@ use Faker\Generator as Faker;
 $factory->define(App\Thread::class, function (Faker $faker) {
     return [
         'user_id'      => function() {
-            return factory('App\User')->create()->id;
+            return App\User::all()->random()->id;
         },
         'channel_id'    => function() {
-            return factory('App\Channel')->create()->id;
+            return App\Channel::all()->random()->id;
         },
         'title'     => $faker->sentence,
         'body'      => $faker->paragraph,
@@ -31,10 +31,10 @@ $factory->define(App\Thread::class, function (Faker $faker) {
 $factory->define(App\Reply::class, function (Faker $faker) {
     return [
         'user_id'      => function() {
-            return factory('App\User')->create()->id;
+            return App\User::all()->random()->id;
         },
         'thread_id'      => function() {
-            return factory('App\Thread')->create()->id;
+            return App\Thread::all()->random()->id;
         },
         'body'      => $faker->paragraph,
     ];
