@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('allChannels', Channel::all());
         });
         //alternately use View::share instead
-//        View::share('channels', Channel::all());
+//        View::share('allChannels', Channel::all());
     }
 
     /**
