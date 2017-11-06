@@ -57,6 +57,12 @@
                                 @endforeach
                             </ul>
                         </li>
+                        <li>
+                            @if (auth()->check())
+                                <a href="/threads/create">New Thread</a>
+                            @endif
+                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
