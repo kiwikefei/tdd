@@ -11,6 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     protected $fillable = ['title', 'body', 'channel_id', 'user_id'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('replyCount', function($query){
+            $query->withCount('replies');
+        });
+    }
     public function path()
     {
         return "/threads/{$this->channel->slug}/{$this->id}";
@@ -39,4 +47,9 @@ class Thread extends Model
     {
         return $filters->apply($query);
     }
+//
+//    public function getReplyCountAttribute()
+//    {
+//        return $this->replies()->count();
+//    }
 }
