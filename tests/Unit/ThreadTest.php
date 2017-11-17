@@ -58,4 +58,23 @@ class ThreadTest extends TestCase
             $thread->path()
         );
     }
+
+    /** @test **/
+    public function a_user_can_filter_threads_by_popularity()
+    {
+        // Given we have 3 threads
+        // With 2 replies, 3 replies, and 0 replies respectively
+        $threadWithTweReplies = create('App\Thread');
+        create('App\Reply', ['thread_id'=>$threadWithTweReplies->id], 2);
+
+        $threadWithThreeReplies = create('App\Thread');
+        create('App\Reply', ['thread_id'=>$threadWithThreeReplies->id], 3);
+
+        $threadWithNoReplies = $this->thread;
+        // When filtering all threads by popularity
+        $response = $this->getJson('threads?popular=1')->json();
+
+        $this->assertEquals([3,2,0],array_column($response, 'replies_count'));
+        // Then they should be return from most replies to least.
+    }
 }
