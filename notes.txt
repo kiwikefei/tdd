@@ -129,3 +129,34 @@
  17. approach to overwrite the existing orderBy in query builder.
     // ref popular@ThreadFilters  the orderBy was setup by Thread::latest() in ThreadsController
     // $this->builder->getQuery()->orderBy = []
+
+ 18. approaches to manage a polymorphism relationship (similar with any many-to-many relationship)
+     Approach 1:   => use DB Facade
+     \DB::table('favorites')->insert([
+         'user_id'   => auth()->id(),
+         'favorited_id'   => $reply->id,
+         'favorited_type'  =>  get_class($reply),
+     ]);
+
+     Approach 2    => use dedicate pivot table Model 'Favorite'
+     Favorite::create([
+         'user_id'   => auth()->id(),
+         'favorited_id'   => $reply->id,
+         'favorited_type'  =>  get_class($reply),
+     ]);
+
+     Approach 3    => use Model's polymorphism relationship 'favorites'
+     $reply->favorites()->create([
+         'user_id'   => auth()->id()
+     ]);
+
+     Approach 4    => use Model behavior
+     $reply->favorite();
+
+ 19. taylor exception message in phpunit.
+        try{
+            $this->post('/replies/' . $reply->id . '/favorites');
+            $this->post('/replies/' . $reply->id . '/favorites');
+        }catch(\Exception $e){
+            $this->fail('Did not expect to inst the same record set more than once.');
+        }
